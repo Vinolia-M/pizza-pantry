@@ -23,7 +23,6 @@ export default function InventoryPage() {
     if (pageRef.current && headerRef.current) {
       gsap.from(headerRef.current.children, {
         y: 30,
-        opacity: 0,
         duration: 0.6,
         stagger: 0.1,
         ease: 'power3.out',
