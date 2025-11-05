@@ -111,7 +111,6 @@ export default function LandingPage() {
   return (
     <div ref={containerRef} className="relative h-screen w-full overflow-hidden">
       <div ref={slideRef} className={`absolute inset-0 bg-gradient-to-br ${slide.color} transition-all duration-1000`}>
-        {/* Noise texture overlay */}
         <div className="absolute inset-0 opacity-50 mix-blend-overlay">
           <div className="absolute inset-0" style={{
             backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' /%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' /%3E%3C/svg%3E")',
@@ -137,14 +136,14 @@ export default function LandingPage() {
       </header>
 
       <div className="container mx-auto relative h-full flex items-center">
-        <div className="px-8 w-full">
+        <div className="px-8 w-full md:mt-0 mt-[-28%]">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div ref={titleRef} className="space-y-8">
               <div className="space-y-4">
                 <p className="text-orange-300 font-semibold tracking-wider text-sm uppercase">
                   {slide.subtitle}
                 </p>
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-white leading-none">
+                <h1 className="text-4xl md:text-7xl lg:text-8xl font-black text-white leading-none">
                   {slide.title.split('\n').map((line, i) => (
                     <div key={i} className="italic">
                       {line}
@@ -170,7 +169,7 @@ export default function LandingPage() {
                 <div className="absolute top-[20%] left-[5%] text-4xl opacity-50">🫑</div>
               </div>
 
-              <div className="absolute top-[-72px] right-8 max-w-xl">
+              <div className="lg:top-[-72px] top-0 lg:right-8 max-w-xl">
                 <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
                   <p className="text-6xl font-bold text-white mb-2">
                     {String(currentSlide + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
@@ -183,10 +182,8 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="container mx-auto">
-      <div className="absolute bottom-12 flex items-center gap-6 z-50">
+        <div className="absolute bottom-[26%] md:bottom-[14%] lg:left-0 left-1/2 -translate-x-1/2 lg:translate-x-0 flex items-center gap-6 z-50">
         <button onClick={prevSlide}
           className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white hover:bg-white/20 transition-all">
           <ChevronLeft size={24} />
@@ -212,7 +209,7 @@ export default function LandingPage() {
         </button>
       </div>
 
-      <div className="absolute bottom-12 right-[11%] flex items-center gap-6 z-50">
+      <div className="absolute md:bottom-[15%] bottom-[20%] right-[11%] lg:left-0 left-1/2 -translate-x-1/2 lg:translate-x-0 w-full flex items-center lg:justify-end justify-center gap-6 z-50">
         <span className="text-white/60 text-sm font-medium">FOLLOW US</span>
         <a href="#" className="text-white/60 hover:text-white transition-colors">
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -231,6 +228,24 @@ export default function LandingPage() {
         </a>
       </div>
       </div>
+
+      <footer className="absolute bottom-0 left-0 right-0 z-40 bbg-white/10 backdrop-blur-md border-t border-white">
+        <div className="container mx-auto px-8 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-6">
+              <p className="text-white/60 text-sm">© 2024 Pizza Pantry. All rights reserved.</p>
+              <div className="flex items-center gap-4">
+                <a href="#" className="text-white/60 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                <a href="#" className="text-white/60 hover:text-white text-sm transition-colors">Terms of Service</a>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <span className="text-white/60 text-sm">Made with ❤️ for pizza lovers</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
