@@ -40,6 +40,14 @@ export async function PUT(
       );
     }
 
+    // SECURITY: Verify ownership
+    if (oldItem.createdBy !== userId) {
+      return NextResponse.json(
+        { error: 'Forbidden: You can only update your own items' },
+        { status: 403 }
+      );
+    }
+
     // Update item
     const item = await Item.findByIdAndUpdate(
       id,
@@ -96,6 +104,7 @@ export async function PUT(
   }
 }
 
+// DELETE - Delete item
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -127,6 +136,15 @@ export async function DELETE(
       );
     }
 
+    // SECURITY: Verify ownership
+    if (item.createdBy !== userId) {
+      return NextResponse.json(
+        { error: 'Forbidden: You can only delete your own items' },
+        { status: 403 }
+      );
+    }
+
+    // Create audit log before deletion
     await AuditLog.create({
       itemId: item._id,
       action: 'delete',

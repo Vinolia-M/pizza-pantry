@@ -9,7 +9,7 @@ const adjustSchema = z.object({
   amount: z.number().positive('Amount must be positive'),
 });
 
-// POST - Adjusts stock quantity
+// POST - Adjust stock quantity
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -46,6 +46,14 @@ export async function POST(
       );
     }
 
+    // SECURITY: Verify ownership
+    if (item.createdBy !== userId) {
+      return NextResponse.json(
+        { error: 'Forbidden: You can only adjust your own items' },
+        { status: 403 }
+      );
+    }
+
     const previousQuantity = item.quantity;
     let newQuantity: number;
 
@@ -68,9 +76,10 @@ export async function POST(
     item.quantity = newQuantity;
     await item.save();
 
+    // Create audit log
     await AuditLog.create({
       itemId: item._id,
-      action: validatedData.action === 'add' ? 'adjust' : 'adjust', 
+      action: validatedData.action === 'add' ? 'stock_add' : 'stock_remove',
       previousQuantity,
       newQuantity,
       userId,

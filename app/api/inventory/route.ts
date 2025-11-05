@@ -4,7 +4,7 @@ import connectDB from '@/app/lib/db/mongodb';
 import { Item, AuditLog } from '@/app/lib/db/models/Item';
 import { itemSchema } from '@/app/lib/validations/item';
 
-// GET - Fetch all items
+// GET - Fetch all items for current user
 export async function GET(request: NextRequest) {
   try {
     const { userId } = await auth();
@@ -24,8 +24,10 @@ export async function GET(request: NextRequest) {
     const sortBy = searchParams.get('sortBy') || 'createdAt';
     const order = searchParams.get('order') === 'asc' ? 1 : -1;
 
-    // Build query
-    let query: any = {};
+    // Build query - IMPORTANT: Filter by current user
+    let query: any = {
+      createdBy: userId,
+    };
 
     if (category && category !== 'all') {
       query.category = category;
@@ -78,7 +80,7 @@ export async function POST(request: NextRequest) {
     // Validate input
     const validatedData = itemSchema.parse(body);
 
-    // Create item
+    // Create item with current user ID
     const item = await Item.create({
       ...validatedData,
       createdBy: userId,
